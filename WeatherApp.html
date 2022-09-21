@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        input {
+            border-radius: 2em;
+            width: 75%;
+            padding: 0.5em;
+            border-color: #f77614;
+        }
+        .pic {
+            width: 390px;
+            height: 520px;
+            border-radius: 5px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        h4 {
+            text-align: center;
+        }
+    </style>
+    <script>
+        var getCity = () => {
+            var city = document.getElementById("city").value;   
+            // create a request
+            var request = new XMLHttpRequest();
+            // response
+            var toturl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=71c09ac3644775660202bbbf052f144e";
+            console.log(toturl);
+            request.open("GET",toturl,true);
+            // parse the response
+            request.onload = function() {
+                if( request.status>=200 && request.status<400 ){
+                    var data = JSON.parse(request.responseText);
+                    console.log(data);    
+                    // display
+                    document.getElementById('entry').textContent = data.name;
+                    document.getElementById('cot').textContent = data.sys.country;
+                    document.getElementById('mintemp').textContent = data.main.temp_min;
+                    document.getElementById('maxtemp').textContent = data.main.temp_max;
+                    document.getElementById('humidity').textContent = data.main.humidity;
+                    document.getElementById('weather').textContent = data.weather[0].description;
+                    var pic = data.weather[0].id;
+                    if(pic == 800){
+                        document.getElementById('picture').innerHTML = "<img src='pictures/w1.jpg' alt=\"clear sky\" class=\"pic\">";
+                    }
+                    else if(pic == 801){
+                        document.getElementById('picture').innerHTML = "<img src='pictures/w2.jpg' alt=\"few clouds\" class=\"pic\">"
+                    }
+                    else if(pic == 802){
+                        document.getElementById('picture').innerHTML = "<img src='pictures/w3.jpg' alt=\"scattered clouds\" class=\"pic\">"
+                    }
+                    else if((pic == 803) || (pic == 804)){
+                        document.getElementById('picture').innerHTML = "<img src='pictures/w4.jpg' alt=\"broken clouds\" class=\"pic\">"
+                    }
+                    else if(((pic>=300) && (pic<=321)) || ((pic == 520) && (pic == 531))){
+                        document.getElementById('picture').innerHTML = "<img src='pictures/w5.jpg' alt=\"shower rain\" class=\"pic\">"
+                    }
+                    else if((pic >=500) && (pic <=504)){
+                        document.getElementById('picture').innerHTML = "<img src='pictures/w6.jpg' alt=\"rain\" class=\"pic\">"
+                    }
+                    else if((pic >= 200) && (pic <=232)){
+                        document.getElementById('picture').innerHTML = "<img src='pictures/w7.jpg' alt=\"thunderstorm\" class=\"pic\">"
+                    }
+                    else if((pic == 511) || ((pic >=600) && (pic <=622))){
+                        document.getElementById('picture').innerHTML = "<img src='pictures/w8.jpg' alt=\"snow\" class=\"pic\">"
+                    }
+                    else if((pic >= 701) && (pic <= 781)){
+                        document.getElementById('picture').innerHTML = "<img src='pictures/w9.jpg' alt=\"mist\" class=\"pic\">"
+                    }
+                }
+                else{
+                    console.log("There's some error");
+                }
+            };
+            // manage error
+            request.onerror = function() {
+                console.log("connection error");
+            };
+            // send the request
+            request.send();        
+        };  
+    </script>
+</head>
+<body class="bg-light">
+    <div class="container-fluid">
+        <div class="row offset-2">
+            <h1 class="display-3" style="color: #1623b5;"><strong>A look outside your window</strong></h1>
+        </div>
+        <div class="row">
+            <div class="col-sm-7">
+                <!--details here-->
+                <form onsubmit="return false" style="margin-top: 50px;" class="offset-2">
+                    <input id="city" type="text" tabindex="0" placeholder="Enter the city here..." onchange="getCity()">
+                </form>
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4" style="margin-top: 30px; margin-bottom: 30px; text-align: center; color:#fdbe00">
+                        <h1 id="entry"></h1>
+                    </div>
+                    <div class="col-sm-4" style="margin-top: 30px; margin-bottom: 30px; text-align: center; color:#fdbe00">
+                        <h1 id="cot"></h1>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" style="margin-top: 30px; margin-bottom: 30px;">
+                        <h3 style="text-align: center; color: #18820c;">Min. Temperature</h3>
+                        <h4 id="mintemp" style="color:#ff21ae"></h4>
+                    </div>
+                    <div class="col-sm-4" style="margin-top: 30px; margin-bottom: 30px;">
+                        <h3 style="text-align: center; color:#18820c">Max. Temperature</h3>
+                        <h4 id="maxtemp" style="color:#ff21ae"></h4>
+                    </div>
+                    <div class="col-sm-4" style="margin-top: 30px; margin-bottom: 30px;">
+                        <h3 style="text-align: center; color:#18820c">Humidity</h3>
+                        <h4 id="humidity" style="color:#ff21ae"></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 style="color:#18820c">Description of weather:</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <h3 id="weather" style="color:#ff21ae"></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <!--picture here-->
+                <div id="picture">
+                    <img src="pictures/bg7.jpg" alt="have a nice day" class="pic">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>

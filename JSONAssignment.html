@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url(pictures/bg3.jpg) ;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <br><br><br>
+    <h1 class="text-center">Write to Us</h1>
+        <div class="row">
+            <div class="col"></div>
+        <form class="col-sm-8" onsubmit="return false">
+            <label for="name">Your Name:</label>
+            <div class="form-group row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="First name" id="fname">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Last name" id="lname">
+                </div>
+              </div>
+            <div class="form-group">
+                <label for="email">Email address:</label>
+                <input type="email" class="form-control" id="email" placeholder="Write your email here...">
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-3"><label for="checkbuttons" id="check">Tell us about you:</label></div>
+                <div class="col-sm-9">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="che" value="Instrumentalist">
+                    <label class="form-check-label" for="inst">Instrumentalist</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="che" value="Vocalist">
+                    <label class="form-check-label" for="voc">Vocalist</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="che" value="Composer">
+                    <label class="form-check-label" for="comp">Composer</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="che" value="Enthusiast">
+                    <label class="form-check-label" for="enthu">Just a music enthusiast</label>
+                </div>
+            </div>
+            </div>
+            <div class="form-group">
+                <label for="comment">Your suggestions & questions:</label>
+                <textarea class="form-control" rows="5" id="comment"></textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" onclick="call()">Submit</button>
+            </div>
+        </form>
+        <div class="col"></div>
+    </div>
+    </div>
+    <script>
+        function call(){
+            var checkval = document.getElementsByName("che");
+            var person = [];
+            for (let i of checkval) {
+                if(i.checked){
+                    person.push(i.value);
+                }
+            }
+            var obj  = {
+                "firstName" : document.getElementById('fname').value,
+                "lastName" : document.getElementById('lname').value,
+                "email" : document.getElementById('email').value,
+                "person" : person,
+                "comment" : document.getElementById('comment').value
+            }
+            console.log(obj);
+            var again = () => {
+                var extra = prompt("How much would you rate my website on the scale of 1 - 10?");
+                obj.rating = extra;
+                console.log(obj);
+            };
+            again();
+        }        
+    </script>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>
